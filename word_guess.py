@@ -1,5 +1,6 @@
 import random 
 import string 
+import csv
 
 class WordGuess:
     tries = {
@@ -11,13 +12,26 @@ class WordGuess:
     def __init__(self, debug=False):
          # are we in debug mode?
         self.debug = debug
+        # self.get_words_from_csv()
+
+
+
+
 
         # possible words, selected at random
-        self.words = {
-            'e' : ['dog','cat','bug','hat','cap','lit','kin','fan','fin','fun','tan','ten','tin','ton'],
-            'm' : ['plain','claim','brine','crime','alive','bride','skine','drive','slime','stein','jumpy'],
-            'h' : ['machiavellian','prestidigitation','plenipotentiary','quattuordecillion','magnanimous','unencumbered','bioluminescent','circumlocution']
-          }
+
+        self.words = self.get_words_from_csv()
+        #     'e' : ['dog','cat','bug','hat','cap','lit','kin','fan','fin','fun','tan','ten','tin','ton'],
+        #     'm' : ['plain','claim','brine','crime','alive','bride','skine','drive','slime','stein','jumpy'],
+        #     'h' : ['machiavellian','prestidigitation','plenipotentiary','quattuordecillion','magnanimous','unencumbered','bioluminescent','circumlocution']
+        #   }
+
+
+
+
+            
+            
+
 
         # ask the user to set the game mode
         self.mode = self.set_mode()
@@ -38,6 +52,14 @@ class WordGuess:
         # start the first turn
         self.play_turn()
 
+    def get_words_from_csv(self): 
+        #imports a list of words from a csv file
+        with open('words.csv') as words_csv:
+            word_reader = csv.reader(words_csv)
+            words_obj = {}
+            for row in word_reader:
+                words_obj[row[0]] = row[1:]
+            return words_obj
 
     def joined_user_word(self):
         return "".join(self.user_word)
@@ -112,4 +134,4 @@ class WordGuess:
             letter = input("\nPlease guess a letter! (a..z): ").lower()
         return letter 
 
-WordGuess()
+WordGuess(True)
